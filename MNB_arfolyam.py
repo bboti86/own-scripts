@@ -48,13 +48,62 @@ def MNBArfolyam(date, currency="EUR"):
         return exchangeRate
 
 
-dates = ["2018.01.22.", "2018.02.20.", "2018.03.20.", "2018.04.20.",
-         "2018.05.20.", "2018.06.20."]
+def tests(wrongFormat=False, nonWorkDay=False,
+          multiCurrency=False, moreData=False):
+    """
+    MFB arfolyam pooler test cases.
 
-for date in dates:
-    print(date + ": ", MNBArfolyam(date))
-    sleep(1)
+    This method is intended to test the MFB arfolyam pooler method.
+    Keep in mind that if any parameters are true (except moreData
+    and multiCurrency) the function will raise and exception.
+    If the function is called without parameters it will not do anything.
 
-for date in dates:
-    print(date + ": ", MNBArfolyam(date, "USD"))
-    sleep(1)
+    Input parameters:
+        wrongFormat: will query badly formated dates
+        nonWorkDay: will query a Hungarian holiday
+        multiCurrency: will query USD, not the default EUR
+        moreData: will add 6 more dates to the query
+    """
+    dates = []
+    print("Running tests with arguments:")
+    print("wrong format tester: {}".format(wrongFormat))
+    print("non work day tester: {}".format(nonWorkDay))
+    print("multi currency tester: {}".format(multiCurrency))
+    print("more data added: {}".format(moreData))
+
+    if moreData:
+        dates = ["2018.01.22.", "2018.02.20.", "2018.03.20.", "2018.04.20.",
+                 "2018.05.22.", "2018.06.20."]
+
+    if wrongFormat:
+        dates.append("2012-11-11")
+
+    if nonWorkDay:
+        dates.append("2018.01.20")
+
+    if multiCurrency:
+        for date in dates:
+            print(date + ": ", MNBArfolyam(date, "USD"))
+            sleep(1)
+    else:
+        for date in dates:
+            print(date + ": ", MNBArfolyam(date))
+            sleep(1)
+    print("tests concluded")
+
+
+tests()
+try:
+    tests(wrongFormat=True)
+except ValueError as e:
+    print(e)
+tests(multiCurrency=True)
+try:
+    tests(nonWorkDay=True)
+except ValueError as e:
+    print(e)
+tests(moreData=True)
+try:
+    tests(wrongFormat=True, multiCurrency=True, nonWorkDay=True, moreData=True)
+except ValueError as e:
+    print(e)
