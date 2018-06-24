@@ -16,8 +16,7 @@ def MNBArfolyam(date):
     Hungarian National Bank for one particular day
     Currently only EUR is supported
     TODO:
-    1) validate parameters
-    2) if query response is 1, that means that the date was not a working day
+    1) if query response is 1, that means that the date was not a working day
         this has to be checked by the function
     2) implement other currencies
     Input parameters:
@@ -25,6 +24,12 @@ def MNBArfolyam(date):
     """
     import requests
     from bs4 import BeautifulSoup
+    import datetime
+
+    try:
+        datetime.datetime.strptime(date, "%Y.%m.%d.")
+    except ValueError:
+        raise ValueError("Incorrect date format, should be YYYY.mm.dd.")
 
     # potentially implement ither currencies
     url_head = "https://www.mnb.hu/arfolyam-tablazat?"
