@@ -92,6 +92,7 @@ def tests(wrongFormat=False, nonWorkDay=False,
     print("tests concluded")
 
 
+"""
 tests()
 try:
     tests(wrongFormat=True)
@@ -107,3 +108,10 @@ try:
     tests(wrongFormat=True, multiCurrency=True, nonWorkDay=True, moreData=True)
 except ValueError as e:
     print(e)
+"""
+
+
+# change this date to run script
+date = "2018.07.20."
+
+print(MNBArfolyam(date))
